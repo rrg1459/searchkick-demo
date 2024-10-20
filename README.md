@@ -25,7 +25,7 @@ https://www.elastic.co/guide/en/elasticsearch/reference/7.17/deb.html
 ```
 
 ```
-$ sudo apt-get install elasticsearch
+ $ sudo apt-get install elasticsearch
 ```
 
 
@@ -65,3 +65,34 @@ Para usar elasticsearch se debe usar su cliente y la gema searchkick, se debe ag
 
 gem "elasticsearch"  
 gem "searchkick", "~> 5.2"
+
+---
+
+### Creando scaffold
+
+```
+ $ rails generate scaffold Book title:string author:string genre:string price:decimal
+```
+
+### Migrando deb
+
+```
+ $ rails db:migrate
+```
+
+### Populando DB
+
+ $ rails console
+
+
+```
+Book.create(title: 'Puro', author: 'Julianna Baggott', genre: 'juvenil', price: 10)  
+Book.create(title: 'Origen', author: 'Jessica Khoury', genre: 'histórico', price: 12)  
+Book.create(title: 'Máscaras', author: 'Amy Harmon', genre: 'zxcv', price: 15)  
+Book.create(title: 'Rebeca', author: 'Daphne du Maurier', genre: 'suspenso', price: 12)  
+Book.create(title: 'Dune', author: 'Frank Herbert', genre: 'ficción', price: 15)  
+Book.create(title: 'Drácula', author: 'Bram Stoker', genre: 'terror', price: 10)  
+Book.create(title: 'Niebla', author: 'Miguel de Unamuno', genre: 'Existencialismo', price: 12)  
+Book.create(title: 'Rayuela', author: 'Julio Cortázar', genre: 'experimental', price: 15)  
+```
+
