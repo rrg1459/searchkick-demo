@@ -82,7 +82,9 @@ gem "searchkick", "~> 5.2"
 
 ### Populando DB
 
+```
  $ rails console
+```
 
 
 ```
@@ -96,3 +98,90 @@ Book.create(title: 'Niebla', author: 'Miguel de Unamuno', genre: 'Existencialism
 Book.create(title: 'Rayuela', author: 'Julio Cortázar', genre: 'experimental', price: 15)  
 ```
 
+### Configurando rutas
+config/rootes.rb
+
+```
+Rails.application.routes.draw do
+  root 'books#index'
+  resources :books
+end
+```
+
+### Personalizar el modelo Book para implementar criterios de coincidencia parcial utilizando la palabra clave word_start:
+app/models/book.rb
+
+```
+class Book < ApplicationRecord
+  searchkick word_start: [:title, :author, :genre]
+
+  def search_data
+    {
+      title: title,
+      author: author,
+      genre: genre
+    }
+  end
+end
+```
+
+### Re-indexar para añadir datos al índice de búsqueda
+Asegurarse de ejecutar este comando cada vez que Searchkick implemente cambios en el modelo
+
+```
+ $ rails console
+```
+
+```
+Book.reindex
+```
+
+### Consultar y buscar todo:
+
+```
+ $ rails console
+```
+
+```
+Book.search "*"
+```
+
+### Coincidencias parciales
+
+```
+ $ rails console
+```
+
+```
+Book.search "science fiction" # science AND fiction
+```
+
+### Si desea buscar tanto en la ciencia como en la ficción
+
+```
+ $ rails console
+```
+
+```
+Book.search "science fiction", operator: "or" # science AND fiction
+```
+
+###  Coincidencias exactas
+
+```
+ $ rails console
+```
+
+```
+Book.search params[:q], fields:[{genre: :exact}, :title]
+```
+
+###  Coincidencias de frases
+
+```
+ $ rails console
+```
+
+```
+Book.search "Religion, Spirituality & New Age", match: :phrase
+```
